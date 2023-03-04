@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Alert -->
+  <div class="text-center alert alert-danger position-fixed fixed-top" role="alert">
+  </div>
+
+  <!-- Layout -->
+  <div class="container col-8">
+    <h3>Danh sách sinh viên</h3>
+    <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex flex-column col-6">
+        <div class="mb-1">Họ và tên</div>
+        <input id="user-name" type="text" class="form-control rounded" placeholder="Nhập tên" aria-label="Username"
+          aria-describedby="basic-addon1">
+      </div>
+      <div class="ms-3"></div>
+      <div class="d-flex flex-column col-6">
+        <div class="mb-1">Tuổi</div>
+        <input id="user-age" type="number" min="1" class="form-control rounded" placeholder="Nhập tuổi"
+          aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+    </div>
+    <div class="mb-3">Chọn một trong hai button, sau đó dữ liệu sẽ được thêm vào một trong hai bảng tương ứng. Ngoài
+      ra,
+      dữ liệu cũng được lưu vào một trong hai loại storage tương ứng.</div>
+    <div class="d-flex mb-5">
+      <button id="add-local-storage-btn" type="button" class="btn btn-primary rounded">Thêm Local Storage</button>
+      <div class="ms-2"></div>
+      <button id="add-session-storage-btn" type="button" class="btn btn-danger rounded">Thêm Session Storage</button>
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column col-6">
+        <div class="text-primary fw-bold">LocalStorage</div>
+        <!-- Local Storage Table -->
+        <table id="local-storage-table" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên</th>
+              <th scope="col">Tuổi</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="ms-3"></div>
+      <div class="d-flex flex-column col-6">
+        <div class="text-danger fw-bold">SessionStorage</div>
+        <!-- Session Storage Table -->
+        <table id="session-storage-table" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên</th>
+              <th scope="col">Tuổi</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Funcs -->
+  <script>
+    $('.alert').hide()
+    // Regex check Vietnamese text
+    const isValidName = str => /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/.test(str)
+
+    const loadIntoTable = (table, users) => {
+      console.log(users)
+      const tableBody = table.querySelector('tbody')
+      for (const user of users) {
+        const rowElement = document.createElement('tr')
+        for (const attribute in user) {
+          const cellElement = document.createElement('td')
+          cellElement.textContent = user[attribute]
+          rowElement.appendChild(cellElement)
+        }
+        tableBody.appendChild(rowElement)
+      }
+    }
+
+    const showErrorMessage = errorMessage => {
+      $('.alert').text(errorMessage);
+      $('.alert').fadeIn().show().delay(5000).fadeOut();
+    }
+
+
+    const isValidInput = (userName, userAge) => {
+      if (userName === '' || userAge === '') {
+        console.log('Please fill in all the information!')
+        showErrorMessage('Please fill in all the information!')
+        return false
+      }
+
+      if (!isValidName(userName)) {
+        console.log('Is not valid name!')
+        showErrorMessage('Is not valid name!')
+        return false
+      }
+      return true
+    }
+
+    // Load Local Storage if it already has users
+    let localUsers = JSON.parse(localStorage.getItem('users') || '[]')
+    loadIntoTable(
+      document.querySelector('#local-storage-table'),
+      localUsers
+    )
+
+    // Load Session Storage if it already has users
+    let sesssionUsers = JSON.parse(sessionStorage.getItem('users') || '[]')
+    loadIntoTable(
+      document.querySelector('#session-storage-table'),
+      sesssionUsers
+    )
+
+    // Add to Local Storage when click button
+    $('#add-local-storage-btn').click(() => {
+      const userName = $('#user-name').val()
+      const userAge = $('#user-age').val()
+
+      if (!isValidInput(userName, userAge)) return
+
+      localUsers.push({
+        stt: localUsers.length + 1,
+        name: userName,
+        age: userAge,
+      })
+
+      localStorage.setItem('users', JSON.stringify(localUsers))
+      // Reload page
+      location.reload()
+    })
+
+    // Add to Session Storage when click button
+    $('#add-session-storage-btn').click(() => {
+      const userName = $('#user-name').val()
+      const userAge = $('#user-age').val()
+
+      if (!isValidInput(userName, userAge)) return
+
+      sesssionUsers.push({
+        stt: sesssionUsers.length + 1,
+        name: userName,
+        age: userAge,
+      })
+
+      sessionStorage.setItem('users', JSON.stringify(sesssionUsers))
+      // Reload page
+      location.reload()
+    })
+  </script>
+
+  <!-- Libs -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

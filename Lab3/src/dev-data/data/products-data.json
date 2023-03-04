@@ -1,0 +1,37 @@
+[
+  {
+    "id": 0,
+    "name": "Iphone XS",
+    "cost": "1199",
+    "image": "",
+    "description": ""
+  },
+  {
+    "id": 1,
+    "name": "Iphone 12 Pro",
+    "cost": "1399",
+    "image": "",
+    "description": ""
+  },
+  {
+    "id": 2,
+    "name": "Macbook Pro 13\" M1",
+    "cost": "1299",
+    "image": "",
+    "description": ""
+  },
+  {
+    "id": 3,
+    "name": "Airpod Pro",
+    "cost": "499",
+    "image": "",
+    "description": ""
+  },
+  {
+    "id": 4,
+    "name": "abc",
+    "cost": "1234",
+    "image": "sample-image.jpg",
+    "description": "abcd"
+  }
+]

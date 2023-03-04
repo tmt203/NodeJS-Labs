@@ -1,0 +1,30 @@
+{{!-- Start: Update Product Modal --}}
+<div class="container col-6">
+  <div class="text-success h3 fw-bold">Cập nhật thông tin sản phẩm</div>
+  <form action="/update-product/{{updateProduct.id}}?_method=PUT" method="post">
+    <div class="mb-3">
+      <label for="productName" class="form-label">Tên sản phẩm</label>
+      <input type="text" class="form-control" id="productName" name="name" placeholder="Nhập tên sản phẩm"
+        value="{{updateProduct.name}}" required>
+    </div>
+    <div class="mb-3">
+      <label for="productCost" class="form-label">Giá</label>
+      <input type="number" class="form-control" id="productCost" name="cost" placeholder="Nhập giá sản phẩm"
+        value="{{updateProduct.cost}}" min="0" required>
+    </div>
+    <div class="mb-3">
+      <label for="productImage" class="form-label">Ảnh sản phẩm</label>
+      <input type="file" class="form-control" id="productImage" name="image" placeholder="Chọn ảnh">
+    </div>
+    <div class="mb-3">
+      <label for="productDesc" class="form-label">Mô tả</label>
+      <textarea id="productDesc" class="form-control" name="description" cols="40" rows="5"></textarea>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+      <div class="mx-2"></div>
+      <button type="submit" class="btn btn-success">Cập nhật</button>
+    </div>
+  </form>
+</div>
+{{!-- End: Update Product Modal --}}

@@ -1,0 +1,79 @@
+<div class="container col-8">
+  <div class="h3 fw-bold text-primary">Danh sách sản phẩm</div>
+  <button type="button" class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+    Thêm sản phẩm
+  </button>
+  <div class="d-flex flex-column">
+    <div class="">Chọn một sản phẩm cụ thể để xem chi tiết</div>
+    <hr class="mb-0">
+    <table id="local-storage-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên sản phẩm</th>
+          <th scope="col">Giá</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products as |product index|}}
+        <tr>
+          <td>{{add (stringToInt product.id) 1}}</td>
+          <td>{{product.name}}</td>
+          <td>{{currencyFormatter product.cost}}</td>
+          <td>
+            <div class="hstack gap-2">
+              <form action="/update-product/{{product.id}}" method="get">
+                <button id="updateBtn" type="submit" class="text-decoration-none text-primary">Chỉnh sửa</button>
+              </form>
+              <div class="vr opacity-50 "></div>
+              <form action="/home/{{product.id}}?_method=DELETE" method="post">
+                <button id="deleteBtn" type="submit" class="text-decoration-none text-primary">Xóa</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{{!-- Start: Add Product Modal --}}
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/home" method="post" name="updateProductForm" class="was-validated">
+        <div class="modal-header">
+          <h1 class="modal-title text-success fs-5 h3" id="addProductModelLabel">Thêm sản phẩm</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="productName" class="form-label">Tên sản phẩm</label>
+            <input type="text" class="form-control" id="productName" name="name" placeholder="Nhập tên sản phẩm"
+              required>
+          </div>
+          <div class="mb-3">
+            <label for="productCost" class="form-label">Giá</label>
+            <input type="number" class="form-control" id="productCost" name="cost" placeholder="Nhập giá sản phẩm"
+              min="0" required>
+          </div>
+          <div class="mb-3">
+            <label for="productImage" class="form-label">Ảnh sản phẩm</label>
+            <input type="file" class="form-control" id="productImage" name="image" placeholder="Chọn ảnh">
+          </div>
+          <div class="mb-3">
+            <label for="productDesc" class="form-label">Mô tả</label>
+            <textarea id="productDesc" class="form-control" name="description" cols="40" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+          <button type="submit" class="btn btn-success">Thêm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{!-- End: Add Product Modal --}}

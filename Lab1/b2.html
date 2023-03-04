@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab01 - Bài 2</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Layout -->
+  <div class="container">
+    <div class="h3 ">Danh sách sinh viên</div>
+    <div class="mb-3">Nhấn một trong hai button để tải danh sách sinh viên</div>
+    <div class="d-flex flex-row">
+      <button id="fetch-api-download-btn" type="button" class="btn btn-danger rounded">Tải bằng Fetch API</button>
+      <div class="ms-3"></div>
+      <button id="ajax-download-btn" type="button" class="btn btn-warning rounded">Tải bằng Ajax</button>
+    </div>
+    <!-- Student Table -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Funcs -->
+  <script>
+    const url = 'https://maivanmanh.github.io/503106/lab01/students.json'
+    // Download when click Fetch API button
+    $('#fetch-api-download-btn').click(() => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => loadIntoTable(
+          data,
+          document.querySelector('table')
+        ))
+        .catch(error => {
+          console.log(error)
+        })
+    })
+
+    // Download when click Ajax button
+    $('#ajax-download-btn').click(() => {
+      $.ajax({
+        url: url,
+        success: (data) => loadIntoTable(
+          data, 
+          document.querySelector('table')
+        ),
+        error: (error) => {
+          console.log(error)
+        }
+      })
+    })
+
+    const loadIntoTable = (data, table) => {
+      const tableBody = table.querySelector('tbody')
+      const students = data.data
+
+      // Clear the table
+      tableBody.innerHTML = ""
+      for (const student of students) {
+        const rowElement = document.createElement('tr')
+        for (const attribute in student) {
+          const cellElement = document.createElement('td')
+          cellElement.textContent = student[attribute]
+          rowElement.appendChild(cellElement)
+        }
+        tableBody.appendChild(rowElement)
+      }
+    }
+
+  </script>
+
+  <!-- Libs -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

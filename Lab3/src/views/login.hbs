@@ -1,0 +1,20 @@
+<div class="container col-8 col-sm-6 col-md-6 col-lg-4">
+  <h3>Đăng nhập</h3>
+  <form action="/login" method="post">
+    <div class="mb-3">
+      <label for="email" class="form-label">Enter email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Enter password:</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+    </div>
+    {{#if message}}
+    <div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
+      <strong>{{message.intro}}</strong> {{message.message}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{/if}}
+    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+  </form>
+</div>

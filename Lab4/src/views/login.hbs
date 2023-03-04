@@ -1,0 +1,23 @@
+<div class="row card col-10 col-sm-8 col-md-6 col-lg-4 col-xl-4 col-xxl-3 py-2 m-auto">
+  <div class="h3 text-primary text-center">Đăng nhập</div>
+  <form action="/login" method="post">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" autocomplete="off">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Mật khẩu</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
+        autocomplete="off">
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Đăng nhập</button>
+    </div>
+  </form>
+  {{#if message}}
+  <div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
+    <strong>{{message.intro}}</strong> {{message.message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {{/if}}
+</div>

@@ -1,0 +1,22 @@
+html,body {
+  height:100%;
+  width:100%;
+  margin:0;
+}
+body {
+  display:flex;
+}
+
+#logout-btn {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+table tr:hover td {
+  background-color: green;
+  cursor: pointer;
+}

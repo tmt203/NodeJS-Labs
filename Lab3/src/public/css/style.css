@@ -1,0 +1,8 @@
+#deleteBtn, #updateBtn {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*input has OS specific font-family*/
+  text-decoration: none;
+  cursor: pointer;
+}
