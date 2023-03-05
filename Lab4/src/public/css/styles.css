@@ -16,7 +16,13 @@ body {
   cursor: pointer;
 }
 
-table tr:hover td {
-  background-color: green;
+.clickable-row:hover {
+  opacity: 0.5;
   cursor: pointer;
+}
+
+#updateBtn,#deleteBtn {
+  background: none!important;
+  border: none;
+  padding: 0!important;
 }

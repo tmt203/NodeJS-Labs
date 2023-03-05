@@ -1,50 +1,172 @@
+{{!-- Start: Main Layouts --}}
 <div class="container">
+  {{!-- Title --}}
   <div class="d-flex flex-row justify-content-between">
     <div></div>
     <div class="h3 text-primary">Danh sách người dùng</div>
-    <form action="/home?_method=DELETE" method="post">
+    <form action="/login?_method=DELETE" method="post">
       <button type="submit" id="logout-btn" class="text-primary mt-2 ">Thoát</button>
     </form>
   </div>
+
+  {{!-- Add user button --}}
+  <button type="button" class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#addUserModal">Thêm người
+    dùng</button>
+
+  {{!-- Table --}}
   <div class="d-flex flex-row">
-    <table class="table">
+    <table id="usersTable" class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Tên</th>
-          <th scope="col">Email</th>
-          <th scope="col">Giới tính</th>
-          <th scope="col">Trạng thái</th>
+          <th scope="col">Hành động</th>
         </tr>
       </thead>
       <tbody>
         {{#each users}}
         {{#with this}}
-        <tr class="clickable-row" data-href="/user/{{id}}">
-          <td>{{id}}</td>
-          <td>{{name}}</td>
-          <td>{{email}}</td>
-          <td>{{gender}}</td>
-          <td>{{status}}</td>
+        <tr>
+          <td class="clickable-row" data-href="/user/{{id}}">{{name}}</td>
+          <td>
+            <div class="hstack gap-2">
+              <button id="updateBtn" type="submit" class="text-decoration-none text-primary" data-bs-toggle="modal" data-bs-target="#updateUserModal" data-id="{{id}}">Chỉnh sửa</button>
+              <div class="vr opacity-50 "></div>
+              <form action="/home?_method=DELETE" method="post">
+                <button id="deleteBtn" type="submit" name="id" value="{{id}}" class="text-decoration-none text-primary">Xóa</button>
+              </form>
+            </div>
+          </td>
         </tr>
         {{/with}}
         {{/each}}
       </tbody>
     </table>
   </div>
+
+  {{!-- Pagination --}}
   <div class="d-flex flex-row justify-content-center">
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item"><a class="page-link {{ disabledPreviousBtn currentPage }}"
-            href="home?page={{ minus currentPage 1 }}">Previous</a></li>
+            href="home?page={{ minus currentPage 1 }}">Trước</a></li>
         {{#each (pageNumbers totalPage) as |value key|}}
         <li class="page-item {{ isCurrentPage value ../currentPage }}" aria-current="page">
           <a class="page-link" href="home?page={{value}}">{{value}}</a>
         </li>
         {{/each}}
         <li class="page-item"><a class="page-link {{ disableNdextBtn currentPage totalPage }}"
-            href="home?page={{ add currentPage 1 }}">Next</a></li>
+            href="home?page={{ add currentPage 1 }}">Tiếp</a></li>
       </ul>
     </nav>
   </div>
 </div>
+{{!-- End: Main Layouts --}}
+
+{{!-- Start: Add User Modal --}}
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/home" method="post" name="updateProductForm" class="was-validated">
+        <div class="modal-header">
+          <h1 class="modal-title text-success fs-5 h3" id="addUserModalLabel">Thêm người dùng</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Tên người dùng</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên người dùng" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex flex-row">
+              <label for="gender" class="form-label me-2">Giới tính:</label>
+              <div class="d-flex flex-column">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                  <label class="form-check-label" for="male">Nam</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                  <label class="form-check-label" for="female">Nữ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex flex-row">
+              <label for="status" class="form-label me-2">Trạng thái:</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="status">
+                <input class="status" type='hidden' value='inactive' name='status'>
+                <div id="statusText">Inactive</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+          <button type="submit" class="btn btn-success">Thêm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{!-- End: Add User Modal --}}
+
+{{!-- Start: Update User Modal --}}
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/home?_method=PUT" method="post" name="updateProductForm" class="was-validated">
+        <div class="modal-header">
+          <h1 class="modal-title text-success fs-5 h3" id="updateUserModalLabel">Cập nhật người dùng</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Tên người dùng</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên người dùng" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex flex-row">
+              <label for="gender" class="form-label me-2">Giới tính:</label>
+              <div class="d-flex flex-column">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                  <label class="form-check-label" for="male">Nam</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                  <label class="form-check-label" for="female">Nữ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex flex-row">
+              <label for="status" class="form-label me-2">Trạng thái:</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="status">
+                <input class="status" type='hidden' value='inactive' name='status'>
+                <div id="statusText">Inactive</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" id="id" name="id" readonly>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+          <button type="submit" class="btn btn-success">Cập nhật</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{!-- End: Update User Modal --}}

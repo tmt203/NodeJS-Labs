@@ -1,23 +1,33 @@
-<div class="container col-6">
+<div class="container ">
   <div class="row card">
     <div class="d-flex flex-column">
-      <div class="d-flex text-center text-success">Thông tin chi tiết</div>
-      <div class="d-flex">
-        <div class="d-flex flex-column">
-          <div class="">ID</div>
-          <div class="">Tên</div>
-          <div class="">Email</div>
-          <div class="">Giới tính</div>
-          <div class="">Trạng thái</div>
-        </div>
-        <div class="d-flex flex-column">
-          <div>1</div>
-          <div>Tran Minh Tri</div>
-          <div>tranminhtri0253@gmail.com</div>
-          <div>Nam</div>
-          <div>inactive</div>
-        </div>
-      </div>
+      <div class="d-flex justify-content-center text-success h3">Thông tin chi tiết</div>
+      <table class="table">
+        {{#with user}}
+        <tbody>
+          <tr>
+            <th scope="row">ID</th>
+            <td>{{id}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Tên</th>
+            <td>{{name}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Email</th>
+            <td>{{email}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Giới tính</th>
+            <td>{{gender}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Trạng thái</th>
+            <td>{{status}}</td>
+          </tr>
+        </tbody>        
+        {{/with}}
+      </table>
     </div>
   </div>
 </div>

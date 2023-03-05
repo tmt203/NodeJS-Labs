@@ -4,8 +4,11 @@ module.exports = {
   getLogin: (req, res) => {
     return res.render('login');
   },
+  logOut: (req, res, next) => {
+    req.session.destroy();
+    next();
+  },
   checkAuth: (req, res) => {
-    console.log('Enter checkAuth method');
     const { email, password } = req.body;
     if (email && password) {
       if (req.session.authenticated && isValidUser(email, password)) {

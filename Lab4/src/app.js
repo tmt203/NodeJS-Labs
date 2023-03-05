@@ -65,11 +65,11 @@ app.use((req, res, next) => {
 // ROUTES
 app.use('/:var(home)?', homeRoute);
 app.use('/login', loginRoute);
-app.use('/user', userRoute)
+app.use('/user', userRoute);
 
 app.use((err, req, res, next) => {
   console.log('Unhandled error detected:' + err.message);
-  res.send('500 - Server error');
+  res.render('500-ServerError');
 });
 app.use((req, res) => {
   console.log('Route is not handled');
