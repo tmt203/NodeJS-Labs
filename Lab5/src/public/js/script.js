@@ -4,15 +4,15 @@ $(document).ready(() => {
   const url = 'https://gorest.co.in/public/v2/users';
 
   // Display file name when selected 
-  $(".custom-file-input").on("change", function () {
-    var fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-  });
+  // $(".custom-file-input").on("change", function () {
+  //   var fileName = $(this).val().split("\\").pop();
+  //   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  // });  
 
   // Animation for flash alert
-  // setTimeout(() => {
-  //   $('#flash-alert').fadeOut(2000)
-  // }, 1000);
+  setTimeout(() => {
+    $('#flash-alert').fadeOut(2000)
+  }, 1000);
 
   // Handle switch status button 
   $('#add-form #status-switch').on('change', function() {

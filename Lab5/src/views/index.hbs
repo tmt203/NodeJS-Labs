@@ -1,3 +1,11 @@
+{{!-- Action notification --}}
+{{#if flash.deletedUserName}}
+<div id="flash-alert" class="alert alert-success text-center w-25 mx-auto my-3">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <span>Đã xóa người dùng <strong>{{flash.deletedUserName}}</strong></span>
+</div>
+{{/if}}
+
 <div class="container my-3">
     <h4 class="my-5 text-primary text-center text-uppercase">Danh sách người dùng</h4>
     <a class="btn btn-success btn-sm my-4" href="/add">Thêm người dùng</a>
@@ -52,14 +60,6 @@
         </nav>
     </div>
 </div>
-
-{{!-- Action notification --}}
-{{#if flash.deletedUserName}}
-<div id="flash-alert" class="alert alert-success text-center w-25 mx-auto my-3">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <span>Đã xóa người dùng <strong>{{flash.deletedUserName}}</strong></span>
-</div>
-{{/if}}
 
 <!-- Confirm delete -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
